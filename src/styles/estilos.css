@@ -1,0 +1,406 @@
+/* ==========================================================================
+   SONIDO VIVO · estilos.css (Evaluación Parcial 2)
+   --------------------------------------------------------------------------
+   Bootstrap da la grilla responsiva y los componentes. Esta hoja se carga
+   DESPUÉS de Bootstrap (ver index.js) y solo personaliza la marca de la
+   Parcial 1: paleta de amplificador, tipografía Barlow, ecualizador.
+
+   TABLA DE CONTENIDO
+   1. Variables de marca y variables de Bootstrap
+   2. Base y accesibilidad
+   3. Botones personalizados (variant="valvula")
+   4. Barra de navegación y pie
+   5. Portada y ecualizador
+   6. Secciones y encabezados de página
+   7. Categorías y tarjetas de producto
+   8. Formularios (sugerencias, medidor, contador)
+   9. Carrito
+   10. Media queries propias (además de las de Bootstrap)
+   11. Movimiento reducido
+   12. Vistas de la Parcial 2 (detalle, categorías, checkout, boleta)
+   13. Panel de administración
+   14. Impresión de boletas
+   ========================================================================== */
+
+/* 1. VARIABLES ============================================================ */
+:root {
+  --noche: #16213A;
+  --noche-suave: #24324F;
+  --valvula: #F0A43A;
+  --valvula-oscura: #C77C14;
+  --palisandro: #7A4A32;
+  --aluminio: #EEF0F3;
+  --tinta: #1C1E24;
+  --tinta-suave: #555B66;
+  --borde: #D5D9E0;
+
+  --fuente-titulos: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  --fuente-texto: "Barlow", "Segoe UI", Arial, sans-serif;
+
+  /* Variables de Bootstrap reemplazadas por las de la marca */
+  --bs-body-font-family: var(--fuente-texto);
+  --bs-body-bg: var(--aluminio);
+  --bs-body-color: var(--tinta);
+  --bs-link-color: #8A520B;
+  --bs-link-color-rgb: 138, 82, 11;
+  --bs-link-hover-color: var(--noche);
+  --bs-border-color: var(--borde);
+  --bs-form-valid-color: #1E7A4C;
+  --bs-form-valid-border-color: #1E7A4C;
+  --bs-form-invalid-color: #B42318;
+  --bs-form-invalid-border-color: #B42318;
+}
+
+/* 2. BASE Y ACCESIBILIDAD ================================================== */
+h1, h2, h3, .h1, .h2, .h3, .h4, .h5 {
+  font-family: var(--fuente-titulos);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+:focus-visible {
+  outline: 3px solid var(--valvula);
+  outline-offset: 2px;
+}
+
+.saltar-contenido {
+  position: absolute;
+  left: 1rem;
+  top: -100px;
+  z-index: 2000;
+  padding: 0.5rem 1rem;
+  background: var(--valvula);
+  color: var(--noche);
+  font-weight: 700;
+}
+.saltar-contenido:focus { top: 1rem; }
+
+/* 3. BOTONES PERSONALIZADOS ================================================
+   <Button variant="valvula"> genera la clase .btn-valvula.
+   Se definen con las variables que usa Bootstrap en sus propios botones. */
+.btn-valvula {
+  --bs-btn-color: var(--noche);
+  --bs-btn-bg: var(--valvula);
+  --bs-btn-border-color: var(--valvula);
+  --bs-btn-hover-color: var(--noche);
+  --bs-btn-hover-bg: #F4B862;
+  --bs-btn-hover-border-color: #F4B862;
+  --bs-btn-active-color: var(--noche);
+  --bs-btn-active-bg: var(--valvula-oscura);
+  --bs-btn-active-border-color: var(--valvula-oscura);
+  --bs-btn-disabled-color: #5c6273;
+  --bs-btn-disabled-bg: #E3E6EB;
+  --bs-btn-disabled-border-color: #E3E6EB;
+  font-weight: 700;
+}
+
+.btn-outline-valvula {
+  --bs-btn-color: #8A520B;
+  --bs-btn-border-color: var(--valvula-oscura);
+  --bs-btn-hover-color: var(--noche);
+  --bs-btn-hover-bg: var(--valvula);
+  --bs-btn-hover-border-color: var(--valvula);
+  --bs-btn-active-color: var(--noche);
+  --bs-btn-active-bg: var(--valvula-oscura);
+  --bs-btn-active-border-color: var(--valvula-oscura);
+  font-weight: 600;
+}
+
+/* 4. BARRA DE NAVEGACIÓN Y PIE ============================================= */
+.barra {
+  background-color: var(--noche);
+  border-bottom: 3px solid var(--valvula);
+}
+
+.marca {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--fuente-titulos);
+  font-size: 1.6rem;
+  font-weight: 800;
+}
+
+.barra .nav-link {
+  white-space: nowrap;
+  font-weight: 600;
+}
+
+.barra .nav-link.active {
+  color: var(--valvula) !important;
+}
+
+.pie {
+  background-color: var(--noche);
+  color: #C9D0DD;
+  padding: 2.5rem 0 1rem;
+}
+.pie h2 { color: #fff; font-size: 1.3rem; }
+.pie a { color: #F4C27A; }
+.pie__legal {
+  border-top: 1px solid var(--noche-suave);
+  margin-top: 2rem;
+  padding-top: 1rem;
+}
+
+/* 5. PORTADA Y ECUALIZADOR ================================================= */
+.portada {
+  background-color: var(--noche);
+  color: #fff;
+  padding: 2.5rem 0 0;
+  overflow: hidden;
+}
+
+.portada__titulo {
+  font-size: clamp(2.5rem, 8vw, 4.75rem);
+  font-weight: 800;
+  max-width: 14ch;
+  line-height: 1;
+}
+
+.portada__texto {
+  color: #C9D0DD;
+  font-size: 1.25rem;
+  max-width: 46ch;
+}
+
+.ecualizador {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  height: 120px;
+  margin: 2.5rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ecualizador li {
+  flex: 1;
+  background-color: var(--valvula);
+  border-radius: 3px 3px 0 0;
+  height: var(--nivel);
+  transform-origin: bottom;
+  animation: subir-nivel 0.9s cubic-bezier(.2, .8, .2, 1) both;
+  animation-delay: calc(var(--i) * 35ms);
+}
+.ecualizador li:nth-child(3n) { background-color: var(--palisandro); }
+
+@keyframes subir-nivel {
+  from { transform: scaleY(0.05); }
+  to   { transform: scaleY(1); }
+}
+
+/* 6. SECCIONES Y ENCABEZADOS =============================================== */
+.seccion { padding: 2.5rem 0; }
+.seccion--blanca { background-color: #fff; }
+.seccion__intro { color: var(--tinta-suave); margin-bottom: 1.5rem; }
+
+.encabezado-pagina {
+  background-color: var(--noche-suave);
+  color: #fff;
+  padding: 2rem 0 1.5rem;
+}
+.encabezado-pagina .lead { color: #C9D0DD; }
+.encabezado-pagina .breadcrumb { --bs-breadcrumb-divider-color: #C9D0DD; --bs-breadcrumb-item-active-color: #C9D0DD; margin-bottom: 0.5rem; }
+.encabezado-pagina .breadcrumb a { color: #F4C27A; }
+
+.linea-tiempo { padding-left: 1.2rem; }
+.linea-tiempo time { font-weight: 700; color: #8A520B; margin-right: 0.25rem; }
+
+.video-tienda figcaption { color: var(--tinta-suave); margin-top: 0.5rem; }
+
+.datos-contacto dt { font-family: var(--fuente-titulos); font-size: 1.1rem; }
+.datos-contacto dd { margin-bottom: 1rem; }
+
+/* 7. CATEGORÍAS Y PRODUCTOS ================================================ */
+.categoria {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  height: 100%;
+  padding: 1rem;
+  background-color: #fff;
+  border: 1px solid var(--borde);
+  border-left: 4px solid var(--valvula);
+  border-radius: 6px;
+  color: var(--tinta);
+  text-decoration: none;
+}
+.categoria:hover { border-color: var(--noche); border-left-color: var(--valvula); }
+.categoria strong { font-family: var(--fuente-titulos); font-size: 1.25rem; line-height: 1.1; }
+.categoria span { color: var(--tinta-suave); font-size: 0.875rem; }
+
+.producto { border-color: var(--borde); }
+.producto__imagen {
+  background-color: var(--aluminio);
+  display: grid;
+  place-items: center;
+  padding: 1.25rem;
+  border-bottom: 1px solid var(--borde);
+}
+.producto__codigo { color: var(--tinta-suave); font-size: 0.8rem; margin-bottom: 0.25rem; }
+.producto .card-title { font-size: 1.3rem; }
+.producto__marca { font-weight: 600; margin-bottom: 0.25rem; }
+.producto__descripcion { color: var(--tinta-suave); font-size: 0.95rem; }
+.producto__pie { display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; }
+.producto__precio { font-family: var(--fuente-titulos); font-size: 1.5rem; font-weight: 800; }
+.producto__en-carrito { color: #1E7A4C; font-size: 0.875rem; margin: 0.5rem 0 0; }
+
+.filtros {
+  background: #fff;
+  border: 1px solid var(--borde);
+  border-radius: 6px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+.resumen-catalogo { color: var(--tinta-suave); }
+
+/* 8. FORMULARIOS =========================================================== */
+.formulario fieldset {
+  background: #fff;
+  border: 1px solid var(--borde);
+  border-radius: 6px;
+  padding: 1rem 1.25rem 0.5rem;
+  margin-bottom: 1.25rem;
+}
+.formulario legend {
+  float: none;
+  width: auto;
+  font-family: var(--fuente-titulos);
+  font-size: 1.3rem;
+  font-weight: 700;
+  padding: 0 0.4rem;
+  margin-bottom: 0;
+}
+.opcional { color: var(--tinta-suave); font-weight: 400; font-size: 0.875rem; }
+
+.sugerencia {
+  margin-top: 0.4rem;
+  padding: 0.4rem 0.6rem;
+  background: #FFF6E6;
+  border-left: 3px solid var(--valvula);
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+.sugerencia--info { background: #EAF6EF; border-left-color: #1E7A4C; }
+
+.medidor-clave .progress { height: 1.1rem; margin-bottom: 0.5rem; }
+.requisitos { list-style: none; padding: 0; font-size: 0.875rem; color: var(--tinta-suave); }
+.requisitos li::before { content: "○ "; }
+.requisitos li.cumple { color: #1E7A4C; }
+.requisitos li.cumple::before { content: "✓ "; }
+
+.contador { text-align: right; font-size: 0.875rem; color: var(--tinta-suave); }
+.contador.al-limite { color: #B42318; font-weight: 700; }
+
+/* Que la barra fija no tape el campo al saltar desde el resumen de errores */
+.formulario [id] { scroll-margin-top: 90px; }
+
+/* 9. CARRITO =============================================================== */
+.lista-carrito { list-style: none; padding: 0; margin: 0 0 1rem; }
+.item-carrito {
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  gap: 0.75rem 1rem;
+  align-items: center;
+  background: #fff;
+  border: 1px solid var(--borde);
+  border-radius: 6px;
+  padding: 1rem;
+  margin-bottom: 0.75rem;
+}
+.item-carrito__acciones {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+.item-carrito .cantidad {
+  min-width: 2.5rem;
+  display: inline-grid;
+  place-items: center;
+  border-top: 1px solid var(--bs-secondary);
+  border-bottom: 1px solid var(--bs-secondary);
+  font-weight: 700;
+}
+.item-carrito__total { font-family: var(--fuente-titulos); font-size: 1.25rem; }
+.resumen-pedido { position: sticky; top: 90px; }
+
+/* 10. MEDIA QUERIES PROPIAS ================================================
+   La grilla (Row/Col) ya se adapta con los puntos de Bootstrap:
+   sm 576px · md 768px · lg 992px · xl 1200px. Aquí solo ajustes finos. */
+@media (min-width: 768px) {
+  .portada { padding-top: 4rem; }
+  .ecualizador { height: 160px; }
+  .seccion { padding: 4rem 0; }
+  .item-carrito { grid-template-columns: 48px 1fr auto; }
+  .item-carrito__acciones { grid-column: auto; justify-content: flex-end; }
+}
+
+@media (max-width: 575.98px) {
+  .portada__texto { font-size: 1.1rem; }
+  .btn-lg { width: 100%; }
+}
+
+/* 11. MOVIMIENTO REDUCIDO ================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .ecualizador li { animation: none; }
+}
+
+
+/* 12. VISTAS DE LA PARCIAL 2 ================================================ */
+.contenedor-angosto { max-width: 480px; }
+.contenedor-medio { max-width: 880px; }
+.articulo { max-width: 720px; font-size: 1.1rem; }
+
+.precio { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.25rem 0.5rem; }
+.precio__anterior { color: var(--tinta-suave); font-size: 0.9rem; }
+.precio--grande .producto__precio { font-size: 2.25rem; }
+
+.producto__imagen { display: grid; }
+.producto__enlace { color: inherit; text-decoration: none; }
+.producto__enlace:hover { color: #8A520B; text-decoration: underline; }
+
+.detalle-imagen {
+  background: #fff;
+  border: 1px solid var(--borde);
+  border-radius: 6px;
+  display: grid;
+  place-items: center;
+  padding: 3rem 1rem;
+}
+
+.tarjeta-categoria { color: var(--tinta); text-decoration: none; border-left: 4px solid var(--valvula); }
+.tarjeta-categoria:hover,
+.tarjeta-categoria.activa { border-color: var(--noche); border-left-color: var(--valvula); background: #FFF6E6; }
+
+.buscador .form-control { min-width: 140px; }
+.total-carrito { font-weight: 700; color: #F4C27A; }
+
+.pasarela { border-style: dashed !important; background: #FFFBF3 !important; }
+.boleta h1 { font-family: var(--fuente-titulos); }
+.totales-orden dt { font-weight: 600; }
+
+/* 13. PANEL DE ADMINISTRACIÓN ============================================== */
+.admin { min-height: 100vh; background: var(--aluminio); }
+.admin__barra { background: var(--noche); border-bottom: 3px solid var(--valvula); padding: 0.75rem 0; }
+.admin__barra .marca { font-size: 1.3rem; }
+.admin__menu { background: #fff; border-right: 1px solid var(--borde); }
+.admin__menu .nav-link { color: var(--tinta); font-weight: 600; }
+.admin__menu .nav-link.active { background: var(--noche); color: #fff; }
+.indicador .display-6 { font-family: var(--fuente-titulos); font-weight: 800; }
+.acceso-admin { color: var(--tinta); border-top: 3px solid var(--valvula); }
+.acceso-admin:hover { background: #FFF6E6; }
+
+@media (min-width: 992px) {
+  .admin__menu { min-height: calc(100vh - 60px); }
+}
+
+/* 14. IMPRESIÓN DE BOLETAS ================================================== */
+@media print {
+  .barra, .pie, .admin__menu, .admin__barra, .no-imprimir, .saltar-contenido { display: none !important; }
+  .admin__contenido { width: 100% !important; }
+  body { background: #fff; }
+}
